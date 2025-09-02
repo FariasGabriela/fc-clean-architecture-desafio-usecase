@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize-typescript";
 import ProductModel from "../../../infrastructure/product/repository/sequelize/product.model";
 import ProductRepository from "../../../infrastructure/product/repository/sequelize/product.repository";
 import Product from "../../../domain/product/entity/product";
-import FindProductUseCase from "./find.product.usecase";
+import UpdateProductUseCase from "./update.product.usecase";
 
 describe("Teste de produto use case", () => {
     let sequelize: Sequelize;
@@ -23,19 +23,21 @@ describe("Teste de produto use case", () => {
     await sequelize.close();
   });
 
-  it("should find a product", async () => {
+  it("should update a product", async () => {
     const productRepository = new ProductRepository();
-    const useCase = new FindProductUseCase(productRepository)
+    const useCase = new UpdateProductUseCase(productRepository)
 
     const product = new Product("1", "Arroz", 20.99);
     await productRepository.create(product);
 
     const input = {
-        id: "1"
+        id: "1",
+        name: "Arroz",
+        price: 20.99
     }
 
     const output = {
-        id: "1",
+        id: "1", 
         name: "Arroz",
         price: 20.99
     }
